@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
-* Студент: [Марина Кистанова](https://up.htmlacademy.ru/univer-js1/4/user/887205).
-* Наставник: `Неизвестно`.
+- Студент: [Марина Кистанова](https://up.htmlacademy.ru/univer-js1/4/user/887205).
+- Наставник: [Дарья Магомедова](https://htmlacademy.ru/profile/id1443345).
 
 ---
 
