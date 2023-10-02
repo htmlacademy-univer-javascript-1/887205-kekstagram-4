@@ -10,7 +10,7 @@ const parseNumber = (value) => {
   const number = value
     .toString()
     .split('')
-    .filter((char) => +char)
+    .filter((char) => parseInt(char, 10) >= 0)
     .reduce((acc, digit) => acc + digit, '') || NaN;
   return +number;
 };
