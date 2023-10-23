@@ -1,2 +1,2 @@
-import { generateData } from './data';
+import { generateData } from './data.js';
 generateData();

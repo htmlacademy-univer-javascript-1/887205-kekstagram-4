@@ -1,4 +1,4 @@
-import { fillArray, getRandomNumber, getRandomValue } from './util';
+import { fillArray, getRandomNumber, getRandomValue } from './util.js';
 
 const MAX_PICTURE_ID = 25;
 
