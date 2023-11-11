@@ -1,3 +1,5 @@
+const MINUTES_IN_HOUR = 60;
+
 // Задание 1
 // Функция для проверки длины строки. Она принимает строку, которую нужно проверить, и максимальную длину и возвращает true, если строка меньше или равна указанной длине, и false, если строка длиннее.
 const checkMaxLength = (value, maxLength) => value.length <= maxLength;
@@ -22,6 +24,22 @@ const parseNumber = (value) => {
   return +number;
 };
 
+
+const timeToMinutes = (time) => {
+  const [hours, minutes] = time.split(':');
+  return +hours * MINUTES_IN_HOUR + +minutes;
+};
+
+const isMeetingInWorkday = (workdayStartTime, workdayEndTime, meetingStartTime, meetingDuration) => {
+  workdayStartTime = timeToMinutes(workdayStartTime);
+  workdayEndTime = timeToMinutes(workdayEndTime);
+  meetingStartTime = timeToMinutes(meetingStartTime);
+  const meetingEndTime = meetingStartTime + meetingDuration;
+
+  return workdayStartTime <= meetingStartTime && meetingEndTime <= workdayEndTime;
+};
+
 checkMaxLength('login', 10);
 isPalindrome('Was it a car or a cat I saw');
 parseNumber('aa0l.14l03d');
+isMeetingInWorkday('8:0', '10:0', '8:0', 120);
