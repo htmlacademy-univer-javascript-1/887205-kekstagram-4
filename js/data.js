@@ -1,10 +1,10 @@
-import { fillArray, getRandomNumber, getRandomValue } from './util.js';
+import { fillArray, getRandomCount, getRandomValue } from './util.js';
 
 const MAX_PICTURE_ID = 25;
 
-const AVATAR_ID = { min: 1, max: 6 };
-const LIKES_COUNT = { min: 15, max: 200 };
-const COMMENTS_COUNT = { min: 0, max: 30 };
+const AvatarId = { MIN: 1, MAX: 6 };
+const Likes = { MIN: 15, MAX: 200 };
+const Comments = { MIN: 0, MAX: 30 };
 
 const NAMES = [
   'Дмитрий',
@@ -32,7 +32,7 @@ const generateComments = () => {
 
   return () => ({
     id: ++commentId,
-    avatar: `img/avatar-${getRandomNumber(AVATAR_ID)}.svg`,
+    avatar: `img/avatar-${getRandomCount(AvatarId)}.svg`,
     message: getRandomValue(COMMENTS),
     name: getRandomValue(NAMES),
   });
@@ -45,8 +45,8 @@ const generatePhotoDescriptions = (generateComment) => {
     id: ++photoId,
     url: `photos/${photoId}.jpg`,
     description: `Описание картинки №${photoId}`,
-    likes: getRandomNumber(LIKES_COUNT),
-    comments: fillArray(getRandomNumber(COMMENTS_COUNT), generateComment)
+    likes: getRandomCount(Likes),
+    comments: fillArray(getRandomCount(Comments), generateComment)
   });
 };
 
