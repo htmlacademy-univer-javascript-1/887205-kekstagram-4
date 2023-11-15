@@ -7,7 +7,7 @@ const getRandomNumber = (min, max) => {
 
 const getRandomCount = ({ MIN, MAX }) => getRandomNumber(MIN, MAX);
 
-const getRandomValue = (arr) => arr[getRandomNumber({ min: 0, max: arr.length - 1 })];
+const getRandomValue = (arr) => arr[getRandomNumber(0, arr.length - 1)];
 
 const fillArray = (length, callback) => Array.from({ length }, callback);
 
