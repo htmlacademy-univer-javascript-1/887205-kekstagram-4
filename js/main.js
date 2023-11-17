@@ -1,2 +1,3 @@
 import { generateData } from './data.js';
-generateData();
+import { createGallery } from './gallery/gallery.js';
+createGallery(generateData());

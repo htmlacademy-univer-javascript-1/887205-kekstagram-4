@@ -11,4 +11,10 @@ const getRandomValue = (arr) => arr[getRandomNumber(0, arr.length - 1)];
 
 const fillArray = (length, callback) => Array.from({ length }, callback);
 
-export { getRandomCount, getRandomValue, fillArray };
+const fillFragment = (data, createItemNode) => {
+  const itemFragment = document.createDocumentFragment();
+  data.forEach((itemData) => itemFragment.append(createItemNode(itemData)));
+  return itemFragment;
+};
+
+export { getRandomCount, getRandomValue, fillArray, fillFragment };
