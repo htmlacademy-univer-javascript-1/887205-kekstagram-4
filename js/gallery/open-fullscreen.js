@@ -1,14 +1,15 @@
-import { showComments } from '../comments.js';
+import { showComments, resetCommentData } from '../comments.js';
 const closeButton = document.getElementById('picture-cancel');
 const onCloseIconClick = closeFullscreen;
 
 const onGalleryKeydown = (event) => {
   if (event.key === 'Escape') {
-    onCloseIconClick();
+    closeFullscreen();
   }
 };
 
 function closeFullscreen() {
+  resetCommentData();
   document.querySelector('.big-picture').classList.add('hidden');
   document.removeEventListener('keydown', onGalleryKeydown);
   closeButton.removeEventListener('click', onCloseIconClick);
