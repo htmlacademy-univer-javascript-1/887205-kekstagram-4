@@ -1,7 +1,5 @@
-import { fillFragment } from '../util.js';
-
+import { showComments } from '../comments.js';
 const closeButton = document.getElementById('picture-cancel');
-const commentTemplate = document.querySelector('.social__comment');
 const onCloseIconClick = closeFullscreen;
 
 const onGalleryKeydown = (event) => {
@@ -13,37 +11,19 @@ const onGalleryKeydown = (event) => {
 function closeFullscreen() {
   document.querySelector('.big-picture').classList.add('hidden');
   document.removeEventListener('keydown', onGalleryKeydown);
-  closeButton.addEventListener('click', onCloseIconClick);
+  closeButton.removeEventListener('click', onCloseIconClick);
+  document.body.classList.remove('modal-open');
 }
 
-const createCommentNode = ({ id, avatar, message, name }) => {
-  const commentNode = commentTemplate.cloneNode(true);
-  const commentNodePicture = commentNode.querySelector('.social__picture');
-  commentNode.dataset.id = id;
-  commentNodePicture.src = avatar;
-  commentNodePicture.alt = name;
-  commentNode.querySelector('.social__text').textContent = message;
-  return commentNode;
-};
-
-const addComments = (comments) => {
-  const commentsContainer = document.querySelector('.social__comments');
-  const commentsFragment = fillFragment(comments, createCommentNode);
-  commentsContainer.append(commentsFragment);
-};
-
-const openFullscreen = (photo) => {
-  document.querySelector('.big-picture__img').children[0].src = photo.url;
-  document.querySelector('.social__caption').textContent = photo.description;
-  document.querySelector('.likes-count').textContent = photo.likes;
-  document.querySelector('.comments-count').textContent = photo.comments.length;
+const openFullscreen = ({ url, description, likes, comments }) => {
+  document.querySelector('.big-picture__img').children[0].src = url;
+  document.querySelector('.social__caption').textContent = description;
+  document.querySelector('.likes-count').textContent = likes;
+  document.querySelector('.comments-count').textContent = comments.length;
   document.querySelector('.big-picture').classList.remove('hidden');
+  showComments(comments);
 
-  document.querySelector('.social__comments').innerHTML = '';
-  addComments(photo.comments);
-  document.querySelector('.social__comment-count').classList.add('hidden');
-  document.querySelector('.comments-loader').classList.add('hidden');
-
+  document.body.classList.add('modal-open');
   closeButton.addEventListener('click', onCloseIconClick);
   document.addEventListener('keydown', onGalleryKeydown);
 };
