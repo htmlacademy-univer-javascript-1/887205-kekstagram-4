@@ -18,6 +18,12 @@ const hideLoadCommentsButton = () => loadCommentsButton.classList.add('hidden');
 
 const showLoadCommentsButton = () => loadCommentsButton.classList.remove('hidden');
 
+const resetCommentData = () => {
+  lastCommentNumber = 0;
+  comments = [];
+  loadCommentsButton.removeEventListener('click', renderComments);
+};
+
 const createCommentNode = ({ avatar, message, name }) => {
   const commentNode = commentTemplate.cloneNode(true);
   const commentNodePicture = commentNode.querySelector('.social__picture');
@@ -46,9 +52,7 @@ function renderComments() {
 
   if (comments.length - lastCommentNumber === 0) {
     hideLoadCommentsButton();
-    lastCommentNumber = 0;
-    comments = [];
-    loadCommentsButton.removeEventListener('click', renderComments);
+    resetCommentData();
   }
 }
 
@@ -59,4 +63,4 @@ const showComments = (newComments) => {
   loadCommentsButton.addEventListener('click', renderComments);
 };
 
-export { showComments };
+export { showComments, resetCommentData };
