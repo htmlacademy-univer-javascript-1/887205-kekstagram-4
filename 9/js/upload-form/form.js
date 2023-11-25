@@ -36,7 +36,7 @@ const closeUploadImageForm = () => {
 
 const onDocumentKeydown = (event) => onCloseModal(event, closeUploadImageForm);
 
-const onCloseIconClick = () => closeUploadImageForm;
+const onCloseIconClick = closeUploadImageForm;
 
 uploadInputNode.addEventListener('change', onChangeUploadInput);
 closeIconNode.addEventListener('click', onCloseIconClick);

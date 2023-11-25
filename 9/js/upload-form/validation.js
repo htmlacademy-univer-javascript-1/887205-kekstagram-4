@@ -19,7 +19,7 @@ const isUniqueHashtags = (hashtags) => {
 
 const isRightHashtagsCount = (hashtags) => toHashtagsList(hashtags).length <= MAX_HASHTAGS_COUNT;
 
-const hashtagsRules = [
+const HashtagsRules = [
   {
     check: (hashtags) => isRightHashtagsCount(hashtags),
     ERROR: `Максимум ${MAX_HASHTAGS_COUNT} хэштегов`
@@ -35,7 +35,7 @@ const hashtagsRules = [
 ];
 
 const addValidators = (pristine) => {
-  hashtagsRules.forEach((rule, index) => pristine.addValidator(hashtagsNode, rule.check, rule.ERROR, index, true));
+  HashtagsRules.forEach((rule, index) => pristine.addValidator(hashtagsNode, rule.check, rule.ERROR, index, true));
 
   pristine.addValidator(commentNode, (comment) => comment.length < MAX_COMMENT_LENGTH, 'Слишком длинный комментарий', 1, false);
 };
