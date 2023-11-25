@@ -17,4 +17,12 @@ const fillFragment = (data, createItemNode) => {
   return itemFragment;
 };
 
-export { getRandomCount, getRandomValue, fillArray, fillFragment };
+const hasFocusOnInput = () => document.activeElement.hasAttribute('data-no-close-on-focus');
+
+const onCloseModal = (event, closeModal) => {
+  if (event.key === 'Escape' && !hasFocusOnInput()) {
+    closeModal();
+  }
+};
+
+export { getRandomCount, getRandomValue, fillArray, fillFragment, onCloseModal };

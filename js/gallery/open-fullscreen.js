@@ -1,17 +1,14 @@
 import { showComments, resetCommentData } from '../comments.js';
+import { onCloseModal } from '../util.js';
 const closeButton = document.getElementById('picture-cancel');
-const onCloseIconClick = closeFullscreen;
 
-const onGalleryKeydown = (event) => {
-  if (event.key === 'Escape') {
-    closeFullscreen();
-  }
-};
+const onCloseIconClick = closeFullscreen;
+const onDocumentKeydown = (event) => onCloseModal(event, closeFullscreen);
 
 function closeFullscreen() {
   resetCommentData();
   document.querySelector('.big-picture').classList.add('hidden');
-  document.removeEventListener('keydown', onGalleryKeydown);
+  document.removeEventListener('keydown', onDocumentKeydown);
   closeButton.removeEventListener('click', onCloseIconClick);
   document.body.classList.remove('modal-open');
 }
@@ -26,7 +23,7 @@ const openFullscreen = ({ url, description, likes, comments }) => {
 
   document.body.classList.add('modal-open');
   closeButton.addEventListener('click', onCloseIconClick);
-  document.addEventListener('keydown', onGalleryKeydown);
+  document.addEventListener('keydown', onDocumentKeydown);
 };
 
 export { openFullscreen };
