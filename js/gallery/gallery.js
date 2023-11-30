@@ -14,7 +14,7 @@ const openPhoto = (event) => {
   openFullscreen(photo);
 };
 
-const createGallery = (data) => {
+const createGallery = (data = []) => {
   photos.push(...data);
   renderPhotos(data);
   gallery.addEventListener('click', openPhoto);

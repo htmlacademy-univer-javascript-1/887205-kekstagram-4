@@ -1,6 +1,7 @@
 import { onCloseModal } from '../util.js';
 import { addValidators } from './validation.js';
 import { createEffectSlider, resetEffectSlider } from './effects.js';
+import { sendUserImages } from '../api.js';
 
 const Zoom = {
   MIN: 25,
@@ -41,6 +42,7 @@ const createForm = () => {
   uploadForm.addEventListener('input', () => {
     sendButtonNode.disabled = !pristine.validate();
   });
+  uploadForm.addEventListener(('submit'), onUploadFormSubmit);
   scaleUpButtonNode.addEventListener('click', onScaleUpButtonClick);
   scaleDownButtonNode.addEventListener('click', onScaleDownButtonClick);
 };
@@ -61,6 +63,19 @@ const closeUploadImageForm = () => {
 const onDocumentKeydown = (event) => onCloseModal(event, closeUploadImageForm);
 
 const onCloseIconClick = closeUploadImageForm;
+
+async function onUploadFormSubmit(event) {
+  event.preventDefault();
+  sendButtonNode.disabled = true;
+  const isSuccess = await sendUserImages(new FormData(uploadForm));
+  sendButtonNode.disabled = false;
+  if (isSuccess) {
+    closeUploadImageForm();
+  } else {
+    uploadOverlayNode.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+  }
+}
 
 uploadInputNode.addEventListener('change', onChangeUploadInput);
 closeIconNode.addEventListener('click', onCloseIconClick);
