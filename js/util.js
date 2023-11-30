@@ -1,16 +1,3 @@
-const getRandomNumber = (min, max) => {
-  if (max < min) {
-    [min, max] = [max, min];
-  }
-  return Math.floor(min + Math.random() * (max - min));
-};
-
-const getRandomCount = ({ MIN, MAX }) => getRandomNumber(MIN, MAX);
-
-const getRandomValue = (arr) => arr[getRandomNumber(0, arr.length - 1)];
-
-const fillArray = (length, callback) => Array.from({ length }, callback);
-
 const fillFragment = (data, createItemNode) => {
   const itemFragment = document.createDocumentFragment();
   data.forEach((itemData) => itemFragment.append(createItemNode(itemData)));
@@ -25,4 +12,15 @@ const onCloseModal = (event, closeModal) => {
   }
 };
 
-export { getRandomCount, getRandomValue, fillArray, fillFragment, onCloseModal };
+
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+const randomSort = (data) => [...data].sort(() => Math.random() - 0.5);
+
+export { fillFragment, onCloseModal, randomSort, debounce };

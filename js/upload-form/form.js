@@ -36,7 +36,7 @@ const changeScale = (sign) => {
 const onScaleUpButtonClick = () => changeScale(1);
 const onScaleDownButtonClick = () => changeScale(-1);
 
-const createForm = () => {
+const initForm = () => {
   createEffectSlider();
   addValidators(pristine);
   uploadForm.addEventListener('input', () => {
@@ -81,4 +81,4 @@ uploadInputNode.addEventListener('change', onChangeUploadInput);
 closeIconNode.addEventListener('click', onCloseIconClick);
 document.addEventListener('keydown', onDocumentKeydown);
 
-export { createForm };
+export { initForm };

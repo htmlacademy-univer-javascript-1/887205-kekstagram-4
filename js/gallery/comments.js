@@ -1,4 +1,4 @@
-import { fillFragment } from './util.js';
+import { fillFragment } from '../util.js';
 
 const COMMENTS_PER_LOAD = 5;
 

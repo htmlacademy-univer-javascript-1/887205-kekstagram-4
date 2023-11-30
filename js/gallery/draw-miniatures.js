@@ -13,6 +13,7 @@ const createPhotoNode = ({ id, url, description, likes, comments }) => {
 };
 
 const renderPhotos = (photosData) => {
+  if (!photosData.length) { return; }
   const photosContainer = document.querySelector('.pictures');
   const photosFragment = fillFragment(photosData, createPhotoNode);
   photosContainer.append(photosFragment);
