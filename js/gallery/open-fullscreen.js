@@ -1,4 +1,4 @@
-import { showComments, resetCommentData } from '../comments.js';
+import { showComments, resetCommentData } from './comments.js';
 import { onCloseModal } from '../util.js';
 const closeButton = document.getElementById('picture-cancel');
 

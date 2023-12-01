@@ -1,5 +1,6 @@
 import { openFullscreen } from './open-fullscreen.js';
 import { renderPhotos } from './draw-miniatures.js';
+import { initFilters } from './filters.js';
 
 const gallery = document.querySelector('.pictures');
 const photos = [];
@@ -17,7 +18,10 @@ const openPhoto = (event) => {
 const createGallery = (data = []) => {
   photos.push(...data);
   renderPhotos(data);
+  initFilters(data, renderPhotos);
   gallery.addEventListener('click', openPhoto);
 };
 
-export { createGallery };
+const clearGallery = () => gallery.querySelectorAll('.picture').forEach((picture) => gallery.removeChild(picture));
+
+export { createGallery, clearGallery };
