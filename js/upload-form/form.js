@@ -19,6 +19,7 @@ const closeIconNode = document.querySelector('.img-upload__cancel');
 const scaleValueNode = document.querySelector('.scale__control--value');
 const scaleUpButtonNode = document.querySelector('.scale__control--bigger');
 const scaleDownButtonNode = document.querySelector('.scale__control--smaller');
+const effectPreviewNodes = document.querySelectorAll('.effects__preview');
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -47,9 +48,21 @@ const initForm = () => {
   scaleDownButtonNode.addEventListener('click', onScaleDownButtonClick);
 };
 
-const onChangeUploadInput = () => {
+const openUploadImageForm = () => {
   uploadOverlayNode.classList.remove('hidden');
   document.body.classList.add('modal-open');
+};
+
+const onChangeUploadInput = () => {
+  const image = uploadInputNode.files[0];
+  if (image) {
+    const imageFileObject = URL.createObjectURL(image);
+    uploadedImageNode.src = imageFileObject;
+    effectPreviewNodes.forEach((effectPreviewNode) => {
+      effectPreviewNode.style.backgroundImage = `url(${imageFileObject})`;
+    });
+    openUploadImageForm();
+  }
 };
 
 const closeUploadImageForm = () => {
