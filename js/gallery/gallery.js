@@ -1,27 +1,30 @@
 import { openFullscreen } from './open-fullscreen.js';
-import { renderPhotos } from './draw-miniatures.js';
+import { renderPictures } from './draw-miniatures.js';
 import { initFilters } from './filters.js';
 
-const gallery = document.querySelector('.pictures');
-const photos = [];
+const galleryNode = document.querySelector('.pictures');
+const pictures = [];
 
-const openPhoto = (event) => {
-  const picture = event.target.closest('.picture__img');
-  if (!picture) { return; }
+const onGalleryClick = (event) => {
+  const pictureNode = event.target.closest('.picture__img');
+  if (!pictureNode) { return; }
   event.preventDefault();
 
-  const photoId = +picture.dataset.id;
-  const photo = photos.find((photoData) => photoData.id === photoId);
-  openFullscreen(photo);
+  const pictureId = +pictureNode.dataset.id;
+  const picture = pictures.find((pictureData) => pictureData.id === pictureId);
+  openFullscreen(picture);
 };
 
-const createGallery = (data = []) => {
-  photos.push(...data);
-  renderPhotos(data);
-  initFilters(data, renderPhotos);
-  gallery.addEventListener('click', openPhoto);
+const createGallery = (picturesData = []) => {
+  if (!picturesData.length) { return; }
+  pictures.push(...picturesData);
+  renderPictures(picturesData);
+  initFilters(picturesData, renderPictures);
+  galleryNode.addEventListener('click', onGalleryClick);
 };
 
-const clearGallery = () => gallery.querySelectorAll('.picture').forEach((picture) => gallery.removeChild(picture));
+const clearGallery = () => galleryNode
+  .querySelectorAll('.picture')
+  .forEach((picture) => galleryNode.removeChild(picture));
 
 export { createGallery, clearGallery };

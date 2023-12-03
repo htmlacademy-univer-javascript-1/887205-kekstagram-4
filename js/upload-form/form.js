@@ -1,7 +1,20 @@
 import { onCloseModal } from '../util.js';
 import { addValidators } from './validation.js';
-import { createEffectSlider, resetEffectSlider } from './effects.js';
+import { initEffects, removeEffect } from './effects.js';
 import { sendUserImages } from '../api.js';
+
+const uploadFormNode = document.querySelector('.img-upload__form');
+const uploadOverlayNode = document.querySelector('.img-upload__overlay');
+const uploadInputNode = document.querySelector('.img-upload__input');
+const uploadedImageNode = document.querySelector('.img-upload__preview img');
+const sendButtonNode = document.querySelector('.img-upload__submit');
+const closeIconNode = document.querySelector('.img-upload__cancel');
+
+const effectPreviewNodes = document.querySelectorAll('.effects__preview');
+
+const scaleValueNode = document.querySelector('.scale__control--value');
+const scaleUpButtonNode = document.querySelector('.scale__control--bigger');
+const scaleDownButtonNode = document.querySelector('.scale__control--smaller');
 
 const Zoom = {
   MIN: 25,
@@ -9,19 +22,7 @@ const Zoom = {
   STEP: 25
 };
 
-const uploadForm = document.querySelector('.img-upload__form');
-const uploadedImageNode = document.querySelector('.img-upload__preview img');
-const uploadInputNode = document.querySelector('.img-upload__input');
-const uploadOverlayNode = document.querySelector('.img-upload__overlay');
-const sendButtonNode = document.querySelector('.img-upload__submit');
-const closeIconNode = document.querySelector('.img-upload__cancel');
-
-const scaleValueNode = document.querySelector('.scale__control--value');
-const scaleUpButtonNode = document.querySelector('.scale__control--bigger');
-const scaleDownButtonNode = document.querySelector('.scale__control--smaller');
-const effectPreviewNodes = document.querySelectorAll('.effects__preview');
-
-const pristine = new Pristine(uploadForm, {
+const pristine = new Pristine(uploadFormNode, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__error'
@@ -38,12 +39,14 @@ const onScaleUpButtonClick = () => changeScale(1);
 const onScaleDownButtonClick = () => changeScale(-1);
 
 const initForm = () => {
-  createEffectSlider();
+  initEffects();
   addValidators(pristine);
-  uploadForm.addEventListener('input', () => {
+
+  uploadFormNode.addEventListener('input', () => {
     sendButtonNode.disabled = !pristine.validate();
   });
-  uploadForm.addEventListener(('submit'), onUploadFormSubmit);
+  uploadFormNode.addEventListener(('submit'), onUploadFormSubmit);
+
   scaleUpButtonNode.addEventListener('click', onScaleUpButtonClick);
   scaleDownButtonNode.addEventListener('click', onScaleDownButtonClick);
 };
@@ -51,26 +54,29 @@ const initForm = () => {
 const openUploadImageForm = () => {
   uploadOverlayNode.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  document.querySelector('.effect-level').classList.add('hidden');
 };
 
 const onChangeUploadInput = () => {
   const image = uploadInputNode.files[0];
-  if (image) {
-    const imageFileObject = URL.createObjectURL(image);
-    uploadedImageNode.src = imageFileObject;
-    effectPreviewNodes.forEach((effectPreviewNode) => {
-      effectPreviewNode.style.backgroundImage = `url(${imageFileObject})`;
-    });
-    openUploadImageForm();
-  }
+  if (!image) { return; }
+
+  const imageFileObject = URL.createObjectURL(image);
+  uploadedImageNode.src = imageFileObject;
+  effectPreviewNodes.forEach((effectPreviewNode) => {
+    effectPreviewNode.style.backgroundImage = `url(${imageFileObject})`;
+  });
+  openUploadImageForm();
 };
 
 const closeUploadImageForm = () => {
+  uploadOverlayNode.scrollTop = 0;
   uploadOverlayNode.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  uploadForm.reset();
+  uploadedImageNode.style.transform = 'none';
+  uploadFormNode.reset();
   pristine.reset();
-  resetEffectSlider();
+  removeEffect();
 };
 
 const onDocumentKeydown = (event) => onCloseModal(event, closeUploadImageForm);
@@ -79,13 +85,16 @@ const onCloseIconClick = closeUploadImageForm;
 
 async function onUploadFormSubmit(event) {
   event.preventDefault();
+
   sendButtonNode.disabled = true;
-  const isSuccess = await sendUserImages(new FormData(uploadForm));
+  const isSuccessSubmit = await sendUserImages(new FormData(uploadFormNode));
   sendButtonNode.disabled = false;
-  if (isSuccess) {
+
+  if (isSuccessSubmit) {
     closeUploadImageForm();
   } else {
     uploadOverlayNode.classList.add('hidden');
+    uploadInputNode.value = '';
     document.body.classList.remove('modal-open');
   }
 }

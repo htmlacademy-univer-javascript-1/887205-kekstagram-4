@@ -1,7 +1,7 @@
 import { showError, showSuccess } from './show-message.js';
 
 const BASE = 'https://29.javascript.pages.academy/kekstagram';
-const Routes = {
+const routes = {
   getUserImages: {
     URL: `${BASE}/data`,
     METHOD: 'GET',
@@ -14,11 +14,11 @@ const Routes = {
   }
 };
 
-const load = async ({ URL, METHOD, ERROR }, body = null) => {
+const makeResponse = async ({ URL, METHOD, ERROR }, body = null) => {
   try {
     const response = await fetch(URL, { method: METHOD, body });
     if (!response.ok) {
-      throw new Error();
+      throw new Error(ERROR);
     }
     return await response.json();
   } catch (error) {
@@ -28,7 +28,7 @@ const load = async ({ URL, METHOD, ERROR }, body = null) => {
 
 const getUserImages = async () => {
   try {
-    const data = await load(Routes.getUserImages);
+    const data = await makeResponse(routes.getUserImages);
     return data;
   } catch (error) {
     showError(error.message, 'Хорошо');
@@ -37,7 +37,7 @@ const getUserImages = async () => {
 
 const sendUserImages = async (body) => {
   try {
-    await load(Routes.sendUserImage, body);
+    await makeResponse(routes.sendUserImage, body);
   } catch (error) {
     showError(error.message);
     return false;

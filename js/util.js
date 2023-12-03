@@ -12,7 +12,6 @@ const onCloseModal = (event, closeModal) => {
   }
 };
 
-
 const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
   return (...rest) => {
@@ -21,6 +20,8 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
+const reverseSort = (data) => [...data].sort((firstItem, secondItem) => secondItem.comments.length - firstItem.comments.length);
+
 const randomSort = (data) => [...data].sort(() => Math.random() - 0.5);
 
-export { fillFragment, onCloseModal, randomSort, debounce };
+export { fillFragment, onCloseModal, reverseSort, randomSort, debounce };
