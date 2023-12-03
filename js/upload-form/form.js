@@ -1,7 +1,7 @@
 import { onCloseModal } from '../util.js';
 import { addValidators } from './validation.js';
 import { initEffects, removeEffect } from './effects.js';
-import { sendUserImages } from '../api.js';
+import { sendUserPictures } from '../api.js';
 
 const uploadFormNode = document.querySelector('.img-upload__form');
 const uploadOverlayNode = document.querySelector('.img-upload__overlay');
@@ -87,7 +87,7 @@ async function onUploadFormSubmit(event) {
   event.preventDefault();
 
   sendButtonNode.disabled = true;
-  const isSuccessSubmit = await sendUserImages(new FormData(uploadFormNode));
+  const isSuccessSubmit = await sendUserPictures(new FormData(uploadFormNode));
   sendButtonNode.disabled = false;
 
   if (isSuccessSubmit) {
