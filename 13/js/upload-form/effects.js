@@ -1,16 +1,10 @@
+const effectListNode = document.querySelector('.effects__list');
 const effectLevelNode = document.querySelector('.effect-level');
 const effectSliderNode = document.querySelector('.effect-level__slider');
-const effectListNode = document.querySelector('.effects__list');
-const effectLevelInputNode = document.querySelector('.effect-level__value');
+const effectValueNode = document.querySelector('.effect-level__value');
 const uploadedImageNode = document.querySelector('.img-upload__preview img');
 
-const Effects = {
-  none: {
-    MIN: 0,
-    MAX: 1,
-    STEP: 0.1,
-    getCssFilter: () => 'none'
-  },
+const effects = {
   chrome: {
     MIN: 0,
     MAX: 1,
@@ -45,8 +39,8 @@ const Effects = {
 
 let activeEffect = 'none';
 
-const getEffectOptions = (name) => {
-  const { MIN, MAX, STEP } = Effects[name];
+const getEffectOptions = (effectType) => {
+  const { MIN, MAX, STEP } = effects[effectType];
   return {
     range: {
       min: MIN,
@@ -58,34 +52,50 @@ const getEffectOptions = (name) => {
   };
 };
 
-const updateEffect = (name) => {
-  const value = effectSliderNode.noUiSlider.get();
-  uploadedImageNode.style.filter = Effects[name].getCssFilter(value);
-  effectLevelInputNode.value = value;
-  effectLevelNode.classList.toggle('hidden', name === 'none');
+const removeEffect = () => {
+  activeEffect = 'none';
+  effectLevelNode.classList.add('hidden');
+  uploadedImageNode.style.filter = 'none';
+  if (effectSliderNode.noUiSlider) {
+    effectSliderNode.noUiSlider.destroy();
+  }
+};
+
+const updateEffect = (effectType) => {
+  if (effectType === 'none') {
+    removeEffect();
+    return;
+  }
+
+  const effectValue = effectSliderNode.noUiSlider.get();
+  uploadedImageNode.style.filter = effects[effectType].getCssFilter(effectValue);
+  effectValueNode.value = effectValue;
+  effectLevelNode.classList.toggle('hidden', effectType === 'none');
 };
 
 const onChangeEffect = (event) => {
   const effectNode = event.target.closest('.effects__radio');
   if (!effectNode) { return; }
-  activeEffect = effectNode.value;
-  effectSliderNode.noUiSlider.updateOptions(getEffectOptions(activeEffect));
-  updateEffect(activeEffect);
-};
 
-const createEffectSlider = () => {
-  noUiSlider.create(effectSliderNode, getEffectOptions('none'));
-  effectLevelNode.classList.add('hidden');
-  effectListNode.addEventListener('click', onChangeEffect);
+  activeEffect = effectNode.value;
+  if (effectSliderNode.noUiSlider) {
+    effectSliderNode.noUiSlider.destroy();
+  }
+
+  if (activeEffect === 'none') {
+    removeEffect();
+    return;
+  }
+
+  noUiSlider.create(effectSliderNode, getEffectOptions(activeEffect));
   effectSliderNode.noUiSlider.on('slide.one', () => {
     updateEffect(activeEffect);
   });
-};
-
-const resetEffectSlider = () => {
-  activeEffect = 'none';
-  effectSliderNode.noUiSlider.updateOptions(getEffectOptions(activeEffect));
   updateEffect(activeEffect);
 };
 
-export { createEffectSlider, resetEffectSlider };
+const initEffects = () => {
+  effectListNode.addEventListener('click', onChangeEffect);
+};
+
+export { initEffects, removeEffect };
