@@ -1,24 +1,24 @@
 import { showError, showSuccess } from './show-message.js';
 
 const BASE = 'https://29.javascript.pages.academy/kekstagram';
-const Routes = {
-  getUserImages: {
+const routes = {
+  getUserPictures: {
     URL: `${BASE}/data`,
     METHOD: 'GET',
     ERROR: 'Не удалось загрузить данные, попробуйте позже'
   },
-  sendUserImage: {
+  sendUserPictures: {
     URL: BASE,
     METHOD: 'POST',
     ERROR: 'Не удалось отправить данные, попробуйте ещё раз'
   }
 };
 
-const load = async ({ URL, METHOD, ERROR }, body = null) => {
+const makeResponse = async ({ URL, METHOD, ERROR }, body = null) => {
   try {
     const response = await fetch(URL, { method: METHOD, body });
     if (!response.ok) {
-      throw new Error();
+      throw new Error(ERROR);
     }
     return await response.json();
   } catch (error) {
@@ -26,18 +26,18 @@ const load = async ({ URL, METHOD, ERROR }, body = null) => {
   }
 };
 
-const getUserImages = async () => {
+const getUserPictures = async () => {
   try {
-    const data = await load(Routes.getUserImages);
+    const data = await makeResponse(routes.getUserPictures);
     return data;
   } catch (error) {
     showError(error.message, 'Хорошо');
   }
 };
 
-const sendUserImages = async (body) => {
+const sendUserPictures = async (body) => {
   try {
-    await load(Routes.sendUserImage, body);
+    await makeResponse(routes.sendUserPictures, body);
   } catch (error) {
     showError(error.message);
     return false;
@@ -46,4 +46,4 @@ const sendUserImages = async (body) => {
   return true;
 };
 
-export { getUserImages, sendUserImages };
+export { getUserPictures, sendUserPictures };

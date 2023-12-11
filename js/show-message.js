@@ -1,9 +1,9 @@
-import { onCloseModal } from './util.js';
+import { closeModalOnEsc } from './util.js';
 
 const errorTemplate = document.querySelector('#error').content;
 const successTemplate = document.querySelector('#success').content;
 
-const onDocumentKeydown = (event) => onCloseModal(event, closeModal);
+const onDocumentKeydown = (event) => closeModalOnEsc(event, closeModal);
 
 const onModalButtonClick = () => closeModal();
 
@@ -23,18 +23,18 @@ function closeModal() {
 const showMessage = (template) => {
   const modal = template.cloneNode(true);
   document.body.append(modal);
-  const button = document.querySelector('.message__button');
-  button.addEventListener('click', onModalButtonClick);
+  const closeButtonNode = document.querySelector('.message__button');
+  closeButtonNode.addEventListener('click', onModalButtonClick);
   document.querySelector('.message__modal').addEventListener('click', onModalClick);
   document.body.addEventListener('keydown', onDocumentKeydown);
 };
 
 const showError = (title, buttonText = null) => {
   const template = errorTemplate;
-  const button = errorTemplate.querySelector('.message__button');
+  const closeButtonNode = errorTemplate.querySelector('.message__button');
   errorTemplate.querySelector('.error__title').textContent = title;
   if (buttonText) {
-    button.textContent = buttonText;
+    closeButtonNode.textContent = buttonText;
   }
   showMessage(template);
 };

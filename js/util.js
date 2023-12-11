@@ -6,12 +6,11 @@ const fillFragment = (data, createItemNode) => {
 
 const hasFocusOnInput = () => document.activeElement.hasAttribute('data-no-close-on-focus');
 
-const onCloseModal = (event, closeModal) => {
+const closeModalOnEsc = (event, closeModal) => {
   if (event.key === 'Escape' && !hasFocusOnInput()) {
     closeModal();
   }
 };
-
 
 const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
@@ -21,6 +20,8 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-const randomSort = (data) => [...data].sort(() => Math.random() - 0.5);
+const sortReversed = (data) => [...data].sort((firstItem, secondItem) => secondItem.comments.length - firstItem.comments.length);
 
-export { fillFragment, onCloseModal, randomSort, debounce };
+const sortRandomly = (data) => [...data].sort(() => Math.random() - 0.5);
+
+export { fillFragment, closeModalOnEsc, sortReversed, sortRandomly, debounce };
