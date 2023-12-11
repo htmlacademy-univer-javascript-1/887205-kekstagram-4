@@ -1,9 +1,9 @@
-import { onCloseModal } from './util.js';
+import { closeModalOnEsc } from './util.js';
 
 const errorTemplate = document.querySelector('#error').content;
 const successTemplate = document.querySelector('#success').content;
 
-const onDocumentKeydown = (event) => onCloseModal(event, closeModal);
+const onDocumentKeydown = (event) => closeModalOnEsc(event, closeModal);
 
 const onModalButtonClick = () => closeModal();
 

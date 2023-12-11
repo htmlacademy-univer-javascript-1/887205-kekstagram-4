@@ -1,4 +1,4 @@
-import { onCloseModal } from '../util.js';
+import { closeModalOnEsc } from '../util.js';
 import { addValidators } from './validation.js';
 import { initEffects, removeEffect } from './effects.js';
 import { sendUserPictures } from '../api.js';
@@ -79,7 +79,7 @@ const closeUploadImageForm = () => {
   removeEffect();
 };
 
-const onDocumentKeydown = (event) => onCloseModal(event, closeUploadImageForm);
+const onDocumentKeydown = (event) => closeModalOnEsc(event, closeUploadImageForm);
 
 const onCloseIconClick = closeUploadImageForm;
 

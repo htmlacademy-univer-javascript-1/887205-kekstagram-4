@@ -1,11 +1,11 @@
 import { showComments, resetCommentData } from './comments.js';
-import { onCloseModal } from '../util.js';
+import { closeModalOnEsc } from '../util.js';
 
 const closeButtonNode = document.getElementById('picture-cancel');
 
 const onCloseIconClick = closeFullscreen;
 
-const onDocumentKeydown = (event) => onCloseModal(event, closeFullscreen);
+const onDocumentKeydown = (event) => closeModalOnEsc(event, closeFullscreen);
 
 function closeFullscreen() {
   resetCommentData();

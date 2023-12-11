@@ -1,4 +1,4 @@
-import { debounce, reverseSort, randomSort } from '../util.js';
+import { debounce, sortRandomly, sortReversed } from '../util.js';
 import { clearGallery } from './gallery.js';
 
 const RANDOM_PICTURES_COUNT = 10;
@@ -6,8 +6,8 @@ const filtersNodes = document.querySelector('.img-filters');
 
 const Filter = {
   'filter-default': (pictures) => pictures,
-  'filter-random': (pictures) => randomSort(pictures).slice(0, RANDOM_PICTURES_COUNT),
-  'filter-discussed': (pictures) => reverseSort(pictures)
+  'filter-random': (pictures) => sortRandomly(pictures).slice(0, RANDOM_PICTURES_COUNT),
+  'filter-discussed': (pictures) => sortReversed(pictures)
 };
 
 const picturesData = [];
